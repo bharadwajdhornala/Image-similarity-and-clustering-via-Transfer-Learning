@@ -149,10 +149,11 @@ no_of_clusters = 4   # Number of clusters to form
 similarity_coefficient = "manhattan" # Metric for finding similar images    #try: "manhattan" , "cosine", "euclidean", "minkowski"
 
 # Make path for train,test and output folder
-# Use dataTestDir for multiple test images
+# dataTrainDir contains dataset images
+# Use dataTestDir for multiple test images in test directory
 # Use dataTest for single test image
 
-dataTrainDir = os.path.join("/content/drive/My Drive/data", "train2")
+dataTrainDir = os.path.join("/content/drive/My Drive/data", "train")
 #dataTestDir = os.path.join("/content/drive/My Drive/data", "test")
 dataTest = "/content/drive/My Drive/data/test/4722.jpg"
 outDir = os.path.join("/content/drive/My Drive/data/output", modelName+'_'+similarity_coefficient)
@@ -246,7 +247,8 @@ spectral_pred = spectral.fit_predict(cluster_train)
 score=sklearn.metrics.silhouette_score(cluster_train, spectral_pred)
 print(score)
 
-results=[]        # List contains no. of samples in each cluster
+results=[]        # List contains no. of samples in each cluster after KMeans
+results1=[]        # List contains no. of samples in each cluster after Spectral
 clusters = []     # List contains cluster names (customizable)
 no_of_samples_in_cluster_kmeans = list(kmeans_pred)
 no_of_samples_in_cluster_spectral = list(spectral_pred)
@@ -257,7 +259,7 @@ for k in range(no_of_clusters):
 
 # Count for total number of samples in each cluster using Spectral
 for k in range(no_of_clusters):
-  results.append(no_of_samples_in_cluster_spectral.count(k))
+  results1.append(no_of_samples_in_cluster_spectral.count(k))
 
 # Output of query image search
 for file in os.listdir(outDir):
@@ -265,16 +267,16 @@ for file in os.listdir(outDir):
   plt.imshow(img)
   plt.show()
 
-# Output of Clustered samples
-print(" KMeans clustering results")
+# List having n cluster names ( Example: Cluster_1)
 for i in range(no_of_clusters):
   clusters.append("Cluster_"+str(i+1))
+
+# Output of Clustered samples
+print(" KMeans clustering results")
 for i in range(no_of_clusters):
   print(str(clusters[i])+ " has "+ str(results[i])+ " samples ")
 
 # Output of Clustered samples
 print(" Spectral clustering results")
 for i in range(no_of_clusters):
-  clusters.append("Cluster_"+str(i+1))
-for i in range(no_of_clusters):
-  print(str(clusters[i])+ " has "+ str(results[i])+ " samples ")
+  print(str(clusters[i])+ " has "+ str(results1[i])+ " samples ")
