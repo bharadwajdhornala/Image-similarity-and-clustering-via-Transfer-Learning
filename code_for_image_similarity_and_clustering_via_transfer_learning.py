@@ -235,8 +235,8 @@ kmeans = KMeans(n_clusters=no_of_clusters, init ='k-means++', max_iter=300,  n_i
 nsamples, nx, ny, ch= X_train.shape
 cluster_train = X_train.reshape((nsamples,nx*ny*ch))
 kmeans_pred = kmeans.fit_predict(cluster_train)
-score=sklearn.metrics.silhouette_score(cluster_train, kmeans_pred)
-print(score)
+kmeans_score=sklearn.metrics.silhouette_score(cluster_train, kmeans_pred)
+print("Silhouette score for KMeans Clustering = {}".format(kmeans_score))
 
 # Spectral clustering on the provided dataset
 print("Spectral clustering on dataset")
@@ -244,8 +244,8 @@ spectral = SpectralClustering(n_clusters=no_of_clusters)
 nsamples, nx, ny, ch= X_train.shape
 cluster_train = X_train.reshape((nsamples,nx*ny*ch))
 spectral_pred = spectral.fit_predict(cluster_train)
-score=sklearn.metrics.silhouette_score(cluster_train, spectral_pred)
-print(score)
+spectral_score=sklearn.metrics.silhouette_score(cluster_train, spectral_pred)
+print("Silhouette score for Spectral Clustering = {}".format(spectral_score))
 
 results=[]        # List contains no. of samples in each cluster after KMeans
 results1=[]        # List contains no. of samples in each cluster after Spectral
